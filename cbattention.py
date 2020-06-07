@@ -5,7 +5,16 @@ from tensorflow.keras.layers import Layer
 class CBAttention(Layer):
 
     def __init__(self, **kwargs):
-        super(CBAttention, self).__init__()
+        
+        trainable = kwargs['trainable'] if 'trainable' in kwargs else True
+        name = kwargs['name'] if 'name' in kwargs else None
+        dtype = kwargs['dtype'] if 'dtype' in kwargs else None
+        dynamic = kwargs['dynamic'] if 'dynamic' in kwargs else False
+        
+        allowed = {'input_shape', 'batch_input_shape', 'batch_size', 'weights', 'activity_regularizer', 'autocast'}
+        superkwargs = {k:kwargs[k] for k in set(kwargs).intersection(allowed)}
+        
+        super(CBAttention, self).__init__(trainable, name, dtype, dynamic, **superkwargs)
         self.layers = []
         if 'input_shape' in kwargs:
             input_shape = kwargs.pop('input_shape')
