@@ -6,6 +6,8 @@ class CBAttention(Layer):
 
     def __init__(self, **kwargs):
         
+        self.init_args=kwargs
+        
         trainable = kwargs['trainable'] if 'trainable' in kwargs else True
         name = kwargs['name'] if 'name' in kwargs else None
         dtype = kwargs['dtype'] if 'dtype' in kwargs else None
@@ -60,3 +62,6 @@ class CBAttention(Layer):
         s_weights = self.layers[11](s_coeffs)
         return self.layers[12]([c_weighted, s_weights])
         
+        
+    def get_config(self):
+        return self.init_args
